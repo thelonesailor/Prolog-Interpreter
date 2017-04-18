@@ -138,10 +138,10 @@ ancestor(X,Y) :- child(X,Somebody),ancestor(Somebody,Y).
 descendant(X,Y) :- ancestor(Y,X).
 
 %X is wife of Y
-wife(X,Y) :- female(X),married(X,Y), X \= Y.
+wife(X,Y) :- female(X),married(X,Y).
 
 %X is husband of Y
-husband(X,Y) :- male(X),married(X,Y), X \= Y.
+husband(X,Y) :- male(X),married(X,Y).
 
 %X is sister of Y
 sister(X,Y) :- female(X),sibling(X,Y).
@@ -149,12 +149,12 @@ sister(X,Y) :- female(X),sibling(X,Y).
 brother(X,Y) :- male(X),sibling(X,Y).
 
 %X is sister_in_law of Y
-sister_in_law(X,Y) :- female(X),married(X,C),brother(C,Y), X \= Y.
+sister_in_law(X,Y) :- female(X),married(X,C),brother(C,Y).
 %X is brother of Y
-brother_in_law(X,Y) :- male(X),married(X,C),brother(C,Y), X \= Y.
+brother_in_law(X,Y) :- male(X),married(X,C),brother(C,Y).
 
 %X and Y are siblings
-sibling(X,Y) :- male(C),female(D),child(C,X),child(C,Y),child(D,X),child(D,Y), X \= Y.
+sibling(X,Y) :- male(C),female(D),child(C,X),child(C,Y),child(D,X),child(D,Y).
 
 %X and Y are cousins
 cousin(X,Y) :- child(C,X),sibling(C,D),child(D,Y).
@@ -163,7 +163,7 @@ cousin(X,Y) :- child(C,X),sibling(C,D),child(D,Y).
 first_cousin(A,B) :- cousin(A,B).
 
 %A and B are half_sibling
-half_sibling(A,B) :- child(P1,A),child(P1,B),child(P2,A),child(P3,B),A\=B,P1\=P2,P3\=P2,P1\=P3.
+half_sibling(A,B) :- child(P1,A),child(P1,B),child(P2,A),child(P3,B).
 
 %X is nephew of Y
 nephew(X,Y) :- male(X),child(B,X),sibling(B,Y).
@@ -171,7 +171,7 @@ nephew(X,Y) :- male(X),child(B,X),sibling(B,Y).
 neice(X,Y) :- female(X),child(B,X),sibling(B,Y).
 
 %related if common ancestor
-related(X,Y) :- ancestor(Somebody,X),ancestor(Somebody,Y), X \= Y.
+related(X,Y) :- ancestor(Somebody,X),ancestor(Somebody,Y).
 
 
 relation(X,Y,father)    		:- father(X,Y).
@@ -180,7 +180,7 @@ relation(X,Y,son)		  		:- son(X,Y).
 relation(X,Y,daughter)  		:- daughter(X,Y).
 relation(X,Y,grandfather)    	:- grandfather(X,Y).
 relation(X,Y,grandmother)    	:- grandmother(X,Y).
-relation(X,Y,aunt)    		:- aunt(X,Y).%
+relation(X,Y,aunt)    		:- aunt(X,Y).
 relation(X,Y,uncle)    		:- uncle(X,Y).
 relation(X,Y,wife)    		:- wife(X,Y).
 relation(X,Y,husband)    		:- husband(X,Y).
@@ -190,8 +190,8 @@ relation(X,Y,sister_in_law)   :- sister_in_law(X,Y).
 relation(X,Y,brother_in_law)  :- brother_in_law(X,Y). 
 relation(X,Y,sibling)    		:- sibling(X,Y).
 relation(X,Y,half_sibling)    :- half_sibling(X,Y).
-relation(X,Y,first_cousin)    :- first_cousin(X,Y).%
-relation(X,Y,cousin)		    :- cousin(X,Y).%
+relation(X,Y,first_cousin)    :- first_cousin(X,Y).
+relation(X,Y,cousin)		    :- cousin(X,Y).
 relation(X,Y,nephew)    		:- nephew(X,Y). 
 relation(X,Y,neice)    		:- neice(X,Y). 
 relation(X,Y,related) 	   	:- related(X,Y). 

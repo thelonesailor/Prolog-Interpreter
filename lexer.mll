@@ -24,23 +24,27 @@ rule scanner = parse
 
 | '('		{ OPEN_PAREN }
 | ')' 		{ CLOSE_PAREN }
-| '\\'		{ printf "BS\n"; BS }
+| '\\'		{ (*printf "BS\n";*) BS }
 | '='		{ EQ }
 | ":-" 		{ FROM }
-| "?-"		{ printf "GOAL\n";GOAL }
-| capstart as text	 { printf "CSTART %d %s\n" lexbuf.lex_curr_p.pos_lnum (Lexing.lexeme lexbuf);CSTART(text) }
-| smlstart as text  { printf "SSTART\n"; SSTART(text)  }
+| "?-"		{ (*printf "GOAL\n";*)GOAL }
+| capstart as text	 { (*printf "CSTART %d %s\n" lexbuf.lex_curr_p.pos_lnum (Lexing.lexeme lexbuf);*)CSTART(text) }
+| smlstart as text  { (*printf "SSTART\n";*) SSTART(text)  }
 
-| ['%'][^ '\n']*['\n']		{ incr_linenum lexbuf; scanner lexbuf }
+| ['%'][^'\n']*['\n']		{ incr_linenum lexbuf; scanner lexbuf }
 
 
 | [' ''\t']+ { scanner lexbuf }
 | ['\n']		{incr_linenum lexbuf; scanner lexbuf }
 
-| [^' ''\t''\n' ',' '.' '(' ')' '?' '-' ':' '=' '\\' ]+ as invalid 	{ printf " Invalid_token(%s) " invalid;scanner lexbuf}
+| [^' ''\t''\n' ',' '.' '(' ')' '?' '-' ':' '=' '\\' '[' ''' ']']+  	{ (*printf " Invalid_token(%s) " invalid;*)scanner lexbuf}
+
+
+| "['" 			{ FL }
+| "']." 		{ FR }
+
+| capstart ".pl"	as text		{ NAME_OF_FILE(text) }
+| smlstart ".pl"	as text		{ NAME_OF_FILE(text) }
 
 | eof { EOF }
 
-(*
-| ['%']['a'-'z' 'A'-'Z' '0'-'9' ' ' '_' ',' '(' ')' '!' ':' '-' '.']*['\n']		{ scanner lexbuf }
-*)
